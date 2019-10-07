@@ -229,18 +229,7 @@ namespace GADE6112_Task_3___19011648
         }
         public void Raze(Building build)
         {
-            if (build is FactoryBuilding fact)
-            {
-                fact.Health -= Attack;
-                if (fact.Health <= 0)
-                    fact.DieDie();
-            }
-            else if (build is ResourceBuilding res)
-            {
-                res.Health -= Attack;
-                if (res.Health <= 0)
-                    res.DieDie();
-            }
+            build.Damage(Attack);
         }
 
         public override bool AliveNt()

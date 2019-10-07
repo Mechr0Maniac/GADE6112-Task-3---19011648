@@ -14,10 +14,10 @@ namespace GADE6112_Task_3___19011648
         List<Unit> units;
         List<Building> builds;
         Random r = new Random();
-        int numUnits = 0;
-        int numBuilds = 0;
-        int mapW = 0; int mapH;
+        int numUnits = 0,  numBuilds = 0;
+        int mapW = 0, mapH;
         TextBox txtInfo;
+        int numR = 0, numM = 0;
 
         public List<Unit> Units
         {
@@ -48,13 +48,15 @@ namespace GADE6112_Task_3___19011648
             {
                 if (r.Next(0, 2) == 0)
                 {
-                    MeleeUnit m = new MeleeUnit(r.Next(0, mapW), r.Next(0, mapH), "Soldier", 100, 1, 20, i % 2 == 0 ? 1 : 0, "M");
+                    MeleeUnit m = new MeleeUnit(r.Next(0, mapW), r.Next(0, mapH), "Soldier", 100, 3, 20, i % 2 == 0 ? 1 : 0, "M");
                     units.Add(m);
+                    numM++;
                 }
                 else
                 {
-                    RangedUnit ru = new RangedUnit(r.Next(0, mapW), r.Next(0, mapH), "Archer", 100, 1, 20, 5, i % 2 == 0 ? 1 : 0, "R");
+                    RangedUnit ru = new RangedUnit(r.Next(0, mapW), r.Next(0, mapH), "Archer", 100, 2, 20, 5, i % 2 == 0 ? 1 : 0, "R");
                     units.Add(ru);
+                    numR++;
                 }
             }
             for (int j = 0; j < numBuilds; j++)
@@ -76,6 +78,22 @@ namespace GADE6112_Task_3___19011648
                 {
                     ResourceBuilding rb = new ResourceBuilding(r.Next(0, mapW), r.Next(0, mapH), "Swords", 200, 2, 60, j % 2 == 0 ? 1 : 0);
                     builds.Add(rb);
+                }
+            }
+            if (numR < numM)
+            {
+                for (int k = 0; k < r.Next(numR, numM); k++)
+                {
+                    WizardUnit wu = new WizardUnit(r.Next(0, mapW), r.Next(0, mapH), "Wizro", 70, 1, 30, 3, "W");
+                    units.Add(wu);
+                }
+            }
+            else
+            {
+                for (int k = 0; k < r.Next(numM, numR); k++)
+                {
+                    WizardUnit wu = new WizardUnit(r.Next(0, mapW), r.Next(0, mapH), "Wizro", 70, 1, 30, 3, "W");
+                    units.Add(wu);
                 }
             }
         }
@@ -100,9 +118,8 @@ namespace GADE6112_Task_3___19011648
                         myButt.ForeColor = Color.Green;
                     }
                 }
-                else
+                else if (u is RangedUnit ru)
                 {
-                    RangedUnit ru = (RangedUnit)u;
                     myButt.Size = new Size(20, 20);
                     myButt.Location = new Point(ru.XPos * 20, ru.YPos * 20);
                     myButt.Text = ru.Symbol;
@@ -114,6 +131,13 @@ namespace GADE6112_Task_3___19011648
                     {
                         myButt.ForeColor = Color.Green;
                     }
+                }
+                else if (u is WizardUnit wu)
+                {
+                    myButt.Size = new Size(20, 20);
+                    myButt.Location = new Point(wu.XPos * 20, wu.YPos * 20);
+                    myButt.Text = wu.Symbol;
+                    myButt.ForeColor = Color.Gray;
                 }
                 myButt.Click += Unit_Click;
                 groupBox.Controls.Add(myButt);

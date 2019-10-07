@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GADE6112_Task_3___19011648
 {
-    public class RangedUnit : Unit
+    public class WizardUnit : Unit
     {
         public bool IsDead { get; set; }
 
@@ -37,12 +37,6 @@ namespace GADE6112_Task_3___19011648
             get { return attack; }
             set { attack = value; }
         }
-
-        public int AttackRange
-        {
-            get { return attackRange; }
-            set { attackRange = value; }
-        }
         public int Speed
         {
             get { return speed; }
@@ -71,7 +65,7 @@ namespace GADE6112_Task_3___19011648
             get { return name; }
         }
 
-        public RangedUnit(int x, int y, string n, int h, int s, int a, int ar, int f, string sy)
+        public WizardUnit(int x, int y, string n, int h, int s, int a, int f, string sy)
         {
             XPos = x;
             YPos = y;
@@ -80,7 +74,6 @@ namespace GADE6112_Task_3___19011648
             maxHealth = h;
             Speed = s;
             Attack = a;
-            AttackRange = ar;
             faction = f;
             Symbol = sy;
             IsAttacking = false;
@@ -146,7 +139,7 @@ namespace GADE6112_Task_3___19011648
             }
 
             distance = Math.Abs(XPos - otherX) + Math.Abs(YPos - otherY);
-            if (distance <= AttackRange)
+            if (distance <= 1)
             {
                 return true;
             }
@@ -192,12 +185,12 @@ namespace GADE6112_Task_3___19011648
         public override string ToString()
         {
             string temp = "";
-            temp += "Ranged: ";
+            temp += "Wizard: ";
             temp += Name;
             temp += "{" + Symbol + "}";
             temp += "(" + XPos + "," + YPos + ") ";
-            temp += Health + ", " + Attack + ", " + AttackRange + ", " + Speed;
-            temp += (IsDead ? " DEAD!" : " ALIVE!");
+            temp += Health + ", " + Attack + ", " + Speed;
+            temp += (IsDead ? ". DEAD!" : " ALIVE!");
             return temp;
         }
 

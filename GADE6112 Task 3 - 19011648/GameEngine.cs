@@ -271,7 +271,7 @@ namespace GADE6112_Task_3___19011648
             FileStream save = new FileStream(SAVE_GAME, FileMode.Create, FileAccess.Write);
             using (save)
             {
-                format.Serialize(save, map);
+                format.Serialize(save, map.Builds);
             }
             save.Close();
         }

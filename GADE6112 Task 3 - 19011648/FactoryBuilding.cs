@@ -99,5 +99,11 @@ namespace GADE6112_Task_3___19011648
         {
             return Faction;
         }
+        public override void Damage(int hit)
+        {
+            Health -= hit;
+            if (Health <= 0)
+                DieDie();
+        }
     }
 }
