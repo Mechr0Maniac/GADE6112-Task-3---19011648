@@ -12,7 +12,7 @@ namespace GADE6112_Task_3___19011648
         private string resourceType;
         private int numResource;
         private int numResourcePR;
-        private int pool;
+        public int pool;
         public bool IsDead { get; set; }
         public int PosX
         {
@@ -60,7 +60,7 @@ namespace GADE6112_Task_3___19011648
 
         public override void DieDie()
         {
-            Symbol = "XX";
+            Symbol = "X/";
             IsDead = true;
         }
         public override string ToString()
@@ -99,6 +99,10 @@ namespace GADE6112_Task_3___19011648
                 if (Health <= 0)
                     DieDie();
             }
+        }
+        public void Spend(FactoryBuilding fb)
+        {
+
         }
     }
 }

@@ -325,12 +325,11 @@ namespace GADE6112_Task_3___19011648
                 {
                     rb.Generator();
                 }
-                else
+                else if (map.Builds[i] is FactoryBuilding fb)
                 {
-                    FactoryBuilding fb = (FactoryBuilding)map.Builds[i];
-                    if (fb.ProductSpeed >= 7)
+                    if (fb.ProductSpeed >= 3)
                     {
-                        map.Units.Add(fb.Spawn());
+                        map.Units.Add(fb.Spawn(fb));
                         fb.ProductSpeed = 0;
                     }
                     fb.ProductSpeed++;

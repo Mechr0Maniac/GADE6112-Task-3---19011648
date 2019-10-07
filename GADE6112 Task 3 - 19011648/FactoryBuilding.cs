@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GADE6112_Task_3___19011648
 {
     [Serializable()]
-    class FactoryBuilding : Building
+    public class FactoryBuilding : Building
     {
         private int unitType;
         private int productSpeed;
@@ -65,7 +65,7 @@ namespace GADE6112_Task_3___19011648
 
         public override void DieDie()
         {
-            bSym = "X/X";
+            bSym = "XX";
             IsDead = true;
         }
         public override string ToString()
@@ -79,16 +79,23 @@ namespace GADE6112_Task_3___19011648
             temp += IsDead ? "DESTROYED!" : "FUNCTIONING!";
             return temp;
         }
-        public Unit Spawn()
+        public Unit Spawn(FactoryBuilding spawner, List<Building> builds)
         {
-            if (unitType == 0)
+            foreach (Building b in builds)
             {
-                RangedUnit r = new RangedUnit(PosX, spawnPoint, "archer", 100, 1, 20, 5, Faction, "R");
+                if (b is ResourceBuilding res)
+                {
+                    if (res.)
+                }
+            }
+            if (spawner.UnitType() == 0)
+            {
+                RangedUnit r = new RangedUnit(spawner.PosX, spawner.spawnPoint, "archer", 100, 1, 20, 5, spawner.Faction, "R");
                 return r;
             }
             else
             {
-                MeleeUnit m = new MeleeUnit(PosX, spawnPoint, "soldier", 100, 1, 20, Faction, "M");
+                MeleeUnit m = new MeleeUnit(spawner.PosX, spawner.spawnPoint, "soldier", 100, 1, 20, spawner.Faction, "M");
                 return m;
             }
         }
@@ -108,6 +115,10 @@ namespace GADE6112_Task_3___19011648
                 if (Health <= 0)
                     DieDie();
             }
+        }
+        public int UnitType()
+        {
+            return unitType;
         }
     }
 }
