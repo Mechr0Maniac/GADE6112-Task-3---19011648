@@ -26,10 +26,10 @@ namespace GADE6112_Task_3___19011648
             get { return round; }
         }
 
-        public GameEngine(int numUnits, int numBuilds, TextBox txtInfo, GroupBox gMap)
+        public GameEngine(int numUnits, int numBuilds, TextBox txtInfo, GroupBox gMap, int mapWidth, int mapHeight)
         {
             grpMap = gMap;
-            map = new Map(numUnits, numBuilds, txtInfo);
+            map = new Map(numUnits, numBuilds, txtInfo, mapWidth, mapHeight);
             map.Generate();
             map.Display(grpMap);
             round = 1;

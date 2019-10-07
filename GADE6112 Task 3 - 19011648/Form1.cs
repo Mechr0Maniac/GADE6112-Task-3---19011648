@@ -21,11 +21,15 @@ namespace GADE6112_Task_3___19011648
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            game = new GameEngine(20, 9, txtOut, gpbxMap);
+            
         }
 
         private void BtnControl_Click(object sender, EventArgs e)
         {
+            if (game == null)
+            {
+                game = new GameEngine(20, 9, txtOut, gpbxMap, trkbrWidth.Value, trkbrHeight.Value);
+            }
             if (trkbrWidth.Enabled == true || trkbrHeight.Enabled == true)
             {
                 trkbrWidth.Enabled = false;
