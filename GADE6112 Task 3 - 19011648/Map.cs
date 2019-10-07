@@ -15,7 +15,7 @@ namespace GADE6112_Task_3___19011648
         List<Building> builds;
         Random r = new Random();
         int numUnits = 0,  numBuilds = 0;
-        int mapW = 0, mapH;
+        int mapW = 0, mapH = 0;
         TextBox txtInfo;
         int numR = 0, numM = 0;
 

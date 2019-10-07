@@ -26,6 +26,7 @@ namespace GADE6112_Task_3___19011648
 
         private void BtnControl_Click(object sender, EventArgs e)
         {
+            gpbxMap.Size = new Size(trkbrWidth.Value * 20, trkbrHeight.Value * 20);
             if (game == null)
             {
                 game = new GameEngine(20, 9, txtOut, gpbxMap, trkbrWidth.Value, trkbrHeight.Value);

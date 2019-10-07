@@ -19,8 +19,6 @@ namespace GADE6112_Task_3___19011648
         Random r = new Random();
         GroupBox grpMap;
 
-        string SAVE_GAME = "save.dat";
-
         public int Round
         {
             get { return round; }
@@ -41,7 +39,7 @@ namespace GADE6112_Task_3___19011648
             {
                 if (map.Units[i] is MeleeUnit mu)
                 {
-                    if (mu.Health <= mu.MaxHealth * 0.25)
+                    if (mu.Health <= mu.MaxHealth * 0.25 && mu.IsDead == false)
                         mu.Move(r.Next(0, 4));
                     else
                     {
@@ -267,52 +265,57 @@ namespace GADE6112_Task_3___19011648
                 }
                 else if (map.Units[i] is WizardUnit wu)
                 {
-                    (Unit closestU, int distanceToU) = wu.Closest(map.Units);
-                    if (closestU.AliveNt() == false && closestU.FactionCheck() != wu.Faction)
+                    if (wu.Health <= wu.MaxHealth * 0.5 && wu.IsDead == false)
+                        wu.Move(r.Next(0, 4));
+                    else
                     {
-                        if (distanceToU <= 1)
+                        (Unit closestU, int distanceToU) = wu.Closest(map.Units);
+                        if (closestU.AliveNt() == false && closestU.FactionCheck() != wu.Faction)
                         {
-                            wu.IsAttacking = true;
-                            wu.Combat(closestU);
-                        }
-                        else
-                        {
-                            if (closestU is MeleeUnit closestMu)
+                            if (distanceToU <= 1)
                             {
-                                if (wu.XPos > closestMu.XPos)
-                                {
-                                    wu.Move(0);
-                                }
-                                else if (wu.YPos < closestMu.YPos)
-                                {
-                                    wu.Move(1);
-                                }
-                                else if (wu.XPos < closestMu.XPos)
-                                {
-                                    wu.Move(2);
-                                }
-                                else if (wu.YPos > closestMu.YPos)
-                                {
-                                    wu.Move(3);
-                                }
+                                wu.IsAttacking = true;
+                                wu.Combat(closestU);
                             }
-                            else if (closestU is RangedUnit closestRu)
+                            else
                             {
-                                if (wu.XPos > closestRu.XPos)
+                                if (closestU is MeleeUnit closestMu)
                                 {
-                                    wu.Move(0);
+                                    if (wu.XPos > closestMu.XPos)
+                                    {
+                                        wu.Move(0);
+                                    }
+                                    else if (wu.YPos < closestMu.YPos)
+                                    {
+                                        wu.Move(1);
+                                    }
+                                    else if (wu.XPos < closestMu.XPos)
+                                    {
+                                        wu.Move(2);
+                                    }
+                                    else if (wu.YPos > closestMu.YPos)
+                                    {
+                                        wu.Move(3);
+                                    }
                                 }
-                                else if (wu.YPos < closestRu.YPos)
+                                else if (closestU is RangedUnit closestRu)
                                 {
-                                    wu.Move(1);
-                                }
-                                else if (wu.XPos < closestRu.XPos)
-                                {
-                                    wu.Move(2);
-                                }
-                                else if (wu.YPos > closestRu.YPos)
-                                {
-                                    wu.Move(3);
+                                    if (wu.XPos > closestRu.XPos)
+                                    {
+                                        wu.Move(0);
+                                    }
+                                    else if (wu.YPos < closestRu.YPos)
+                                    {
+                                        wu.Move(1);
+                                    }
+                                    else if (wu.XPos < closestRu.XPos)
+                                    {
+                                        wu.Move(2);
+                                    }
+                                    else if (wu.YPos > closestRu.YPos)
+                                    {
+                                        wu.Move(3);
+                                    }
                                 }
                             }
                         }
@@ -343,17 +346,23 @@ namespace GADE6112_Task_3___19011648
         }
         public void Save()
         {
-            FileStream save = new FileStream(SAVE_GAME, FileMode.Create, FileAccess.Write);
-            using (save)
+            FileStream saveBuilds = new FileStream("saveBuilds.dat", FileMode.Create, FileAccess.Write);
+            using (saveBuilds)
             {
-                format.Serialize(save, map);
+                format.Serialize(saveBuilds, map.Builds);
             }
-            save.Close();
+            FileStream saveUnits = new FileStream("saveBuilds.dat", FileMode.Create, FileAccess.Write);
+            using (saveUnits)
+            {
+                format.Serialize(saveUnits, map.Builds);
+            }
+            saveBuilds.Close();
+            saveUnits.Close();
         }
         public void Load()
         {
-            FileStream load = new FileStream(SAVE_GAME, FileMode.Open, FileAccess.Read);
-            format.Deserialize(load);
+            //FileStream load = new FileStream(SAVE_GAME, FileMode.Open, FileAccess.Read);
+            //map.Builds = (Building)format.Deserialize(load);
         }
     }
 }

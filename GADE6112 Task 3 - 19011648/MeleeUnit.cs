@@ -95,20 +95,23 @@ namespace GADE6112_Task_3___19011648
 
         public override void Move(int dir)
         {
-            switch (dir)
+            if (IsDead == false)
             {
-                case 0:
-                    YPos--;
-                    break;
-                case 1:
-                    XPos++;
-                    break;
-                case 2:
-                    YPos++;
-                    break;
-                case 3:
-                    XPos--;
-                    break;
+                switch (dir)
+                {
+                    case 0:
+                        YPos--;
+                        break;
+                    case 1:
+                        XPos++;
+                        break;
+                    case 2:
+                        YPos++;
+                        break;
+                    case 3:
+                        XPos--;
+                        break;
+                }
             }
         }
 
@@ -258,10 +261,14 @@ namespace GADE6112_Task_3___19011648
             if (inRange)
             {
                 isAttacking = true;
-                Health -= hit - AttackRange;
-                if (Health <= 0)
-                    Death();
+                SetDamage(hit);
             }
+        }
+        public override void SetDamage(int dam)
+        {
+            Health -= dam;
+            if (Health <= 0)
+                Death();
         }
     }
 }

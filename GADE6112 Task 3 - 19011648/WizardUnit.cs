@@ -88,32 +88,34 @@ namespace GADE6112_Task_3___19011648
 
         public override void Move(int dir)
         {
-            switch (dir)
+            if (IsDead == false)
             {
-                case 0:
-                    YPos--;
-                    break;
-                case 1:
-                    XPos++;
-                    break;
-                case 2:
-                    YPos++;
-                    break;
-                case 3:
-                    XPos--;
-                    break;
-                default: break;
+                switch (dir)
+                {
+                    case 0:
+                        YPos--;
+                        break;
+                    case 1:
+                        XPos++;
+                        break;
+                    case 2:
+                        YPos++;
+                        break;
+                    case 3:
+                        XPos--;
+                        break;
+                }
             }
         }
 
         public override void Combat(Unit attacker)
         {
             attacker.Damage(Attack, InRange(attacker));
+            Damage(Attack, InRange(attacker), attacker);
         }
 
         public override bool InRange(Unit other)
         {
-            int distance;
             int otherX = 0;
             int otherY = 0;
             if (other is MeleeUnit nmeM)
@@ -126,9 +128,7 @@ namespace GADE6112_Task_3___19011648
                 otherX = nmeR.XPos;
                 otherY = nmeR.YPos;
             }
-
-            distance = Math.Abs(XPos - otherX) + Math.Abs(YPos - otherY);
-            if (distance <= 1)
+            if (otherX <= XPos + 1 && otherX >= XPos - 1 || otherY <= YPos + 1 && otherY >= YPos - 1)
             {
                 return true;
             }
@@ -178,7 +178,7 @@ namespace GADE6112_Task_3___19011648
             temp += "{" + Symbol + "}";
             temp += "(" + XPos + "," + YPos + ") ";
             temp += Health + ", " + Attack + ", " + Speed;
-            temp += (IsDead ? ". DEAD!" : " ALIVE!");
+            temp += (IsDead ? " DEAD!" : " ALIVE!");
             return temp;
         }
 
@@ -187,9 +187,16 @@ namespace GADE6112_Task_3___19011648
             if (inRange)
             {
                 isAttacking = true;
-                Health -= hit;
-                if (Health <= 0)
-                    Death();
+                SetDamage(hit);
+            }
+        }
+
+        public void Damage(int hit, bool inRange, Unit attacker)
+        {
+            if (inRange)
+            {
+                isAttacking = true;
+                attacker.SetDamage(hit);
             }
         }
 
@@ -200,6 +207,12 @@ namespace GADE6112_Task_3___19011648
         public override int FactionCheck()
         {
             return Faction;
+        }
+        public override void SetDamage(int dam)
+        {
+            Health -= dam;
+            if (Health <= 0)
+                Death();
         }
     }
 }
