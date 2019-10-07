@@ -101,7 +101,7 @@ namespace GADE6112_Task_3___19011648
         {
             int loop = 0;
             bool temp = false;
-            int numLoops = builds.Count;
+            int numLoops = builds.Count();
             foreach (Building b in builds)
             {
                 while (temp == false && loop < numLoops)
