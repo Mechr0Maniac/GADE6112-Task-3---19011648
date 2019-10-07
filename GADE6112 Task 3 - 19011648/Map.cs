@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace GADE6112_Task_3___19011648
 {
-    [Serializable]
+    [Serializable()]
     public class Map
     {
         List<Unit> units;

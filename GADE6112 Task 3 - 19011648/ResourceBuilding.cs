@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace GADE6112_Task_3___19011648
 {
+    [Serializable()]
     public class ResourceBuilding : Building
     {
         private string resourceType;
