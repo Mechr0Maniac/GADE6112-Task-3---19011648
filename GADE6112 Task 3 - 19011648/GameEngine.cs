@@ -39,116 +39,176 @@ namespace GADE6112_Task_3___19011648
         {
             for (int i = 0; i < map.Units.Count; i++)
             {
-                if (map.Units[i] is MeleeUnit)
+                if (map.Units[i] is MeleeUnit mu)
                 {
-                    MeleeUnit mu = (MeleeUnit)map.Units[i];
                     if (mu.Health <= mu.MaxHealth * 0.25)
-                    {
                         mu.Move(r.Next(0, 4));
-                    }
                     else
                     {
-                        (Unit closest, int distanceTo) = mu.Closest(map.Units);
-                        if (distanceTo <= mu.AttackRange)
+                        (Unit closestU, int distanceToU) = mu.Closest(map.Units);
+                        (Building closestB, int distanceToB) = mu.Raid(map.Builds, map.Builds.Count);
+                        if (distanceToB < distanceToU)
                         {
-                            mu.IsAttacking = true;
-                            mu.Combat(closest);
+                            if (closestB.IsDie() == false && closestB.FactionCheck() != mu.Faction)
+                            {
+                                if (distanceToB <= mu.AttackRange)
+                                {
+                                    mu.IsAttacking = true;
+                                    mu.Raze(closestB);
+                                }
+                                else
+                                {
+                                    if (closestB is FactoryBuilding fact)
+                                    {
+                                        if (mu.XPos > fact.PosX)
+                                        {
+                                            mu.Move(0);
+                                        }
+                                        else if (mu.YPos < fact.PosY)
+                                        {
+                                            mu.Move(1);
+                                        }
+                                        else if (mu.XPos < fact.PosX)
+                                        {
+                                            mu.Move(2);
+                                        }
+                                        else if (mu.YPos > fact.PosY)
+                                        {
+                                            mu.Move(3);
+                                        }
+                                    }
+                                    else if (closestB is ResourceBuilding res)
+                                    {
+                                        if (mu.XPos > res.PosX)
+                                        {
+                                            mu.Move(0);
+                                        }
+                                        else if (mu.YPos < res.PosY)
+                                        {
+                                            mu.Move(1);
+                                        }
+                                        else if (mu.XPos < res.PosX)
+                                        {
+                                            mu.Move(2);
+                                        }
+                                        else if (mu.YPos > res.PosY)
+                                        {
+                                            mu.Move(3);
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                                mu.Move(r.Next(0, 4));
                         }
                         else
                         {
-                            if (closest is MeleeUnit)
+                            if (closestU.AliveNt() == false && closestU.FactionCheck() != mu.Faction)
                             {
-                                MeleeUnit closestMu = (MeleeUnit)closest;
-                                if (mu.XPos > closestMu.XPos)
+                                if (distanceToU <= mu.AttackRange)
                                 {
-                                    mu.Move(0);
+                                    mu.IsAttacking = true;
+                                    mu.Combat(closestU);
                                 }
-                                else if (mu.YPos < closestMu.YPos)
+                                else
                                 {
-                                    mu.Move(1);
-                                }
-                                else if (mu.XPos < closestMu.XPos)
-                                {
-                                    mu.Move(2);
-                                }
-                                else if (mu.YPos > closestMu.YPos)
-                                {
-                                    mu.Move(3);
+                                    if (closestU is MeleeUnit closestMu)
+                                    {
+                                        if (mu.XPos > closestMu.XPos)
+                                        {
+                                            mu.Move(0);
+                                        }
+                                        else if (mu.YPos < closestMu.YPos)
+                                        {
+                                            mu.Move(1);
+                                        }
+                                        else if (mu.XPos < closestMu.XPos)
+                                        {
+                                            mu.Move(2);
+                                        }
+                                        else if (mu.YPos > closestMu.YPos)
+                                        {
+                                            mu.Move(3);
+                                        }
+                                    }
+                                    else if (closestU is RangedUnit closestRu)
+                                    {
+                                        if (mu.XPos > closestRu.XPos)
+                                        {
+                                            mu.Move(0);
+                                        }
+                                        else if (mu.YPos < closestRu.YPos)
+                                        {
+                                            mu.Move(1);
+                                        }
+                                        else if (mu.XPos < closestRu.XPos)
+                                        {
+                                            mu.Move(2);
+                                        }
+                                        else if (mu.YPos > closestRu.YPos)
+                                        {
+                                            mu.Move(3);
+                                        }
+                                    }
                                 }
                             }
-                            else if (closest is RangedUnit)
-                            {
-                                RangedUnit closestRu = (RangedUnit)closest;
-                                if (mu.XPos > closestRu.XPos)
-                                {
-                                    mu.Move(0);
-                                }
-                                else if (mu.YPos < closestRu.YPos)
-                                {
-                                    mu.Move(1);
-                                }
-                                else if (mu.XPos < closestRu.XPos)
-                                {
-                                    mu.Move(2);
-                                }
-                                else if (mu.YPos > closestRu.YPos)
-                                {
-                                    mu.Move(3);
-                                }
-                            }
+                            else
+                                mu.Move(r.Next(0, 4));
                         }
-
                     }
                 }
                 else if (map.Units[i] is RangedUnit)
                 {
                     RangedUnit ru = (RangedUnit)map.Units[i];
-                    (Unit closest, int distanceTo) = ru.Closest(map.Units);
-                    if (distanceTo <= ru.AttackRange)
+                    (Unit closestU, int distanceTo) = ru.Closest(map.Units);
+                    if (closestU.AliveNt() == false && closestU.FactionCheck() != ru.Faction)
                     {
-                        ru.IsAttacking = true;
-                        ru.Combat(closest);
-                    }
-                    else
-                    {
-                        if (closest is MeleeUnit)
+                        if (distanceTo <= ru.AttackRange)
                         {
-                            MeleeUnit closestMu = (MeleeUnit)closest;
-                            if (ru.XPos > closestMu.XPos)
-                            {
-                                ru.Move(0);
-                            }
-                            else if (ru.YPos < closestMu.YPos)
-                            {
-                                ru.Move(1);
-                            }
-                            else if (ru.XPos < closestMu.XPos)
-                            {
-                                ru.Move(2);
-                            }
-                            else if (ru.YPos > closestMu.YPos)
-                            {
-                                ru.Move(3);
-                            }
+                            ru.IsAttacking = true;
+                            ru.Combat(closestU);
                         }
-                        else if (closest is RangedUnit)
+                        else
                         {
-                            RangedUnit closestRu = (RangedUnit)closest;
-                            if (ru.XPos > closestRu.XPos)
+                            if (closestU is MeleeUnit)
                             {
-                                ru.Move(0);
+                                MeleeUnit closestMu = (MeleeUnit)closestU;
+                                if (ru.XPos > closestMu.XPos)
+                                {
+                                    ru.Move(0);
+                                }
+                                else if (ru.YPos < closestMu.YPos)
+                                {
+                                    ru.Move(1);
+                                }
+                                else if (ru.XPos < closestMu.XPos)
+                                {
+                                    ru.Move(2);
+                                }
+                                else if (ru.YPos > closestMu.YPos)
+                                {
+                                    ru.Move(3);
+                                }
                             }
-                            else if (ru.YPos < closestRu.YPos)
+                            else if (closestU is RangedUnit)
                             {
-                                ru.Move(1);
-                            }
-                            else if (ru.XPos < closestRu.XPos)
-                            {
-                                ru.Move(2);
-                            }
-                            else if (ru.YPos > closestRu.YPos)
-                            {
-                                ru.Move(3);
+                                RangedUnit closestRu = (RangedUnit)closestU;
+                                if (ru.XPos > closestRu.XPos)
+                                {
+                                    ru.Move(0);
+                                }
+                                else if (ru.YPos < closestRu.YPos)
+                                {
+                                    ru.Move(1);
+                                }
+                                else if (ru.XPos < closestRu.XPos)
+                                {
+                                    ru.Move(2);
+                                }
+                                else if (ru.YPos > closestRu.YPos)
+                                {
+                                    ru.Move(3);
+                                }
                             }
                         }
                     }

@@ -82,5 +82,13 @@ namespace GADE6112_Task_3___19011648
                 Symbol = numResource.ToString();
             }
         }
+        public override bool IsDie()
+        {
+            return IsDead;
+        }
+        public override int FactionCheck()
+        {
+            return Faction;
+        }
     }
 }

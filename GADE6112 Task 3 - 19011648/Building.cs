@@ -17,5 +17,7 @@ namespace GADE6112_Task_3___19011648
 
         public abstract void DieDie();
         public abstract override string ToString();
+        public abstract bool IsDie();
+        public abstract int FactionCheck();
     }
 }

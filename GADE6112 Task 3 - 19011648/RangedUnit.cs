@@ -17,7 +17,7 @@ namespace GADE6112_Task_3___19011648
         }
         public int YPos
         {
-            get { return base.yPos; }
+            get { return yPos; }
             set { yPos = value; }
         }
 
@@ -133,7 +133,7 @@ namespace GADE6112_Task_3___19011648
 
         public override bool InRange(Unit other)
         {
-            int distance = 0;
+            int distance;
             int otherX = 0;
             int otherY = 0;
             if (other is MeleeUnit)
@@ -167,8 +167,8 @@ namespace GADE6112_Task_3___19011648
                 if (u is MeleeUnit && u != this)
                 {
                     MeleeUnit otherMu = (MeleeUnit)u;
-                    int distance = Math.Abs(this.XPos - otherMu.XPos)
-                               + Math.Abs(this.YPos - otherMu.YPos);
+                    int distance = Math.Abs(XPos - otherMu.XPos)
+                               + Math.Abs(YPos - otherMu.YPos);
                     if (distance < shortest)
                     {
                         shortest = distance;
@@ -178,8 +178,8 @@ namespace GADE6112_Task_3___19011648
                 else if (u is RangedUnit && u != this)
                 {
                     RangedUnit otherRu = (RangedUnit)u;
-                    int distance = Math.Abs(this.XPos - otherRu.XPos)
-                               + Math.Abs(this.YPos - otherRu.YPos);
+                    int distance = Math.Abs(XPos - otherRu.XPos)
+                               + Math.Abs(YPos - otherRu.YPos);
                     if (distance < shortest)
                     {
                         shortest = distance;
@@ -194,13 +194,22 @@ namespace GADE6112_Task_3___19011648
         public override string ToString()
         {
             string temp = "";
-            temp += "Ranged:";
+            temp += "Ranged: ";
             temp += Name;
             temp += "{" + Symbol + "}";
-            temp += "(" + XPos + "," + YPos + ")";
+            temp += "(" + XPos + "," + YPos + ") ";
             temp += Health + ", " + Attack + ", " + AttackRange + ", " + Speed;
             temp += (IsDead ? " DEAD!" : " ALIVE!");
             return temp;
+        }
+
+        public override bool AliveNt()
+        {
+            return IsDead;
+        }
+        public override int FactionCheck()
+        {
+            return Faction;
         }
     }
 }

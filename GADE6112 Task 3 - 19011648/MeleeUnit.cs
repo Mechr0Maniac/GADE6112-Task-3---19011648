@@ -164,22 +164,18 @@ namespace GADE6112_Task_3___19011648
             Unit closest = this;
             foreach (Unit u in units)
             {
-                if (u is MeleeUnit && u != this)
+                if (u is MeleeUnit otherMu && u != this)
                 {
-                    MeleeUnit otherMu = (MeleeUnit)u;
-                    int distance = Math.Abs(this.XPos - otherMu.XPos)
-                               + Math.Abs(this.YPos - otherMu.YPos);
+                    int distance = Math.Abs(XPos - otherMu.XPos) + Math.Abs(YPos - otherMu.YPos);
                     if (distance < shortest)
                     {
                         shortest = distance;
                         closest = otherMu;
                     }
                 }
-                else if (u is RangedUnit && u != this)
+                else if (u is RangedUnit otherRu && u != this)
                 {
-                    RangedUnit otherRu = (RangedUnit)u;
-                    int distance = Math.Abs(this.XPos - otherRu.XPos)
-                               + Math.Abs(this.YPos - otherRu.YPos);
+                    int distance = Math.Abs(XPos - otherRu.XPos) + Math.Abs(YPos - otherRu.YPos);
                     if (distance < shortest)
                     {
                         shortest = distance;
@@ -201,6 +197,59 @@ namespace GADE6112_Task_3___19011648
             temp += Health + ", " + Attack + ", " + AttackRange + ", " + Speed;
             temp += (IsDead ? " DEAD!" : " ALIVE!");
             return temp;
+        }
+
+        public (Building, int) Raid(List<Building> builds, int num)
+        {
+            Random rand = new Random();
+            int shortest = 100;
+            Building target = builds[rand.Next(0, num)];
+            foreach (Building b in builds)
+            {
+                if (b is ResourceBuilding resource)
+                {
+                    int distance = Math.Abs(XPos - resource.PosX) + Math.Abs(YPos - resource.PosY);
+                    if (distance < shortest)
+                    {
+                        shortest = distance;
+                        target = resource;
+                    }
+                }
+                else if (b is FactoryBuilding factory)
+                {
+                    int distance = Math.Abs(XPos - factory.PosX) + Math.Abs(YPos - factory.PosY);
+                    if (distance < shortest)
+                    {
+                        shortest = distance;
+                        target = factory;
+                    }
+                }
+            }
+            return (target, shortest);
+        }
+        public void Raze(Building build)
+        {
+            if (build is FactoryBuilding fact)
+            {
+                fact.Health -= Attack;
+                if (fact.Health <= 0)
+                    fact.DieDie();
+            }
+            else if (build is ResourceBuilding res)
+            {
+                res.Health -= Attack;
+                if (res.Health <= 0)
+                    res.DieDie();
+            }
+        }
+
+        public override bool AliveNt()
+        {
+            return IsDead;
+        }
+        public override int FactionCheck()
+        {
+            return Faction;
         }
     }
 }

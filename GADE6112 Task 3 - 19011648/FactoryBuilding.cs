@@ -91,5 +91,13 @@ namespace GADE6112_Task_3___19011648
                 return m;
             }
         }
+        public override bool IsDie()
+        {
+            return IsDead;
+        }
+        public override int FactionCheck()
+        {
+            return Faction;
+        }
     }
 }
