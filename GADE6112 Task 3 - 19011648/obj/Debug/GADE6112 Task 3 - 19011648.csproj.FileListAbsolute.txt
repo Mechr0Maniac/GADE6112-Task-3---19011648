@@ -1,0 +1,10 @@
+D:\work\coding\.local\GADE6112 Task 3 - 19011648\GADE6112 Task 3 - 19011648\bin\Debug\GADE6112 Task 3 - 19011648.exe.config
+D:\work\coding\.local\GADE6112 Task 3 - 19011648\GADE6112 Task 3 - 19011648\bin\Debug\GADE6112 Task 3 - 19011648.exe
+D:\work\coding\.local\GADE6112 Task 3 - 19011648\GADE6112 Task 3 - 19011648\bin\Debug\GADE6112 Task 3 - 19011648.pdb
+D:\work\coding\.local\GADE6112 Task 3 - 19011648\GADE6112 Task 3 - 19011648\obj\Debug\GADE6112 Task 3 - 19011648.csprojAssemblyReference.cache
+D:\work\coding\.local\GADE6112 Task 3 - 19011648\GADE6112 Task 3 - 19011648\obj\Debug\GADE6112_Task_3___19011648.Form1.resources
+D:\work\coding\.local\GADE6112 Task 3 - 19011648\GADE6112 Task 3 - 19011648\obj\Debug\GADE6112_Task_3___19011648.Properties.Resources.resources
+D:\work\coding\.local\GADE6112 Task 3 - 19011648\GADE6112 Task 3 - 19011648\obj\Debug\GADE6112 Task 3 - 19011648.csproj.GenerateResource.cache
+D:\work\coding\.local\GADE6112 Task 3 - 19011648\GADE6112 Task 3 - 19011648\obj\Debug\GADE6112 Task 3 - 19011648.csproj.CoreCompileInputs.cache
+D:\work\coding\.local\GADE6112 Task 3 - 19011648\GADE6112 Task 3 - 19011648\obj\Debug\GADE6112 Task 3 - 19011648.exe
+D:\work\coding\.local\GADE6112 Task 3 - 19011648\GADE6112 Task 3 - 19011648\obj\Debug\GADE6112 Task 3 - 19011648.pdb
