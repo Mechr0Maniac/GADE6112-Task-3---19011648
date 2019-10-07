@@ -53,7 +53,7 @@ namespace GADE6112_Task_3___19011648
                 }
                 else
                 {
-                    RangedUnit ru = new RangedUnit(r.Next(0, mapW), r.Next(0, 20), "Archer", 100, 1, 20, 5, i % 2 == 0 ? 1 : 0, "R");
+                    RangedUnit ru = new RangedUnit(r.Next(0, mapW), r.Next(0, mapH), "Archer", 100, 1, 20, 5, i % 2 == 0 ? 1 : 0, "R");
                     units.Add(ru);
                 }
             }
@@ -63,18 +63,18 @@ namespace GADE6112_Task_3___19011648
                 {
                     if (r.Next(0, 2) == 0)
                     {
-                        FactoryBuilding fb = new FactoryBuilding(r.Next(0, mapW), r.Next(0, 20), 0, 200, 5, j % 2 == 0 ? 1 : 0, "FB");
+                        FactoryBuilding fb = new FactoryBuilding(r.Next(0, mapW), r.Next(0, mapH), 0, 200, 5, j % 2 == 0 ? 1 : 0, "FB");
                         builds.Add(fb);
                     }
                     else
                     {
-                        FactoryBuilding fb = new FactoryBuilding(r.Next(0, mapW), r.Next(0, 20), 1, 200, 5, j % 2 == 0 ? 1 : 0, "FB");
+                        FactoryBuilding fb = new FactoryBuilding(r.Next(0, mapW), r.Next(0, mapH), 1, 200, 5, j % 2 == 0 ? 1 : 0, "FB");
                         builds.Add(fb);
                     }
                 }
                 else
                 {
-                    ResourceBuilding rb = new ResourceBuilding(r.Next(0, mapW), r.Next(0, 20), "Swords", 200, 2, 60, j % 2 == 0 ? 1 : 0);
+                    ResourceBuilding rb = new ResourceBuilding(r.Next(0, mapW), r.Next(0, mapH), "Swords", 200, 2, 60, j % 2 == 0 ? 1 : 0);
                     builds.Add(rb);
                 }
             }
@@ -126,16 +126,22 @@ namespace GADE6112_Task_3___19011648
                 {
                     ResourceBuilding rb = (ResourceBuilding)b;
                     myButt.Size = new Size(30, 30);
-                    myButt.Location = new Point(rb.PosX * 20, rb.PosY * 20);
+                    myButt.Location = new Point(rb.PosX * 30, rb.PosY * 30);
                     myButt.Text = rb.Symbol;
-                    myButt.ForeColor = Color.Gray;
-
+                    if (rb.Faction == 0)
+                    {
+                        myButt.ForeColor = Color.Red;
+                    }
+                    else
+                    {
+                        myButt.ForeColor = Color.Green;
+                    }
                 }
                 else
                 {
                     FactoryBuilding fb = (FactoryBuilding)b;
                     myButt.Size = new Size(30, 30);
-                    myButt.Location = new Point(fb.PosX * 20, fb.PosY * 20);
+                    myButt.Location = new Point(fb.PosX * 30, fb.PosY * 30);
                     myButt.Text = fb.Symbol;
                     if (fb.Faction == 0)
                     {
