@@ -28,5 +28,6 @@ namespace GADE6112_Task_3___19011648
         public abstract override string ToString();
         public abstract bool AliveNt();
         public abstract int FactionCheck();
+        public abstract void Damage(int hit, bool inRange);
     }
 }

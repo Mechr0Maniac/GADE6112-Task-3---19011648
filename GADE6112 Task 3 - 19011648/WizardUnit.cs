@@ -108,18 +108,7 @@ namespace GADE6112_Task_3___19011648
 
         public override void Combat(Unit attacker)
         {
-            if (attacker is MeleeUnit mu)
-            {
-                Health -= mu.Attack;
-            }
-            else if (attacker is RangedUnit ru)
-            {
-                Health -= (ru.Attack - ru.AttackRange);
-            }
-            if (Health <= 0)
-            {
-                Death();
-            }
+            attacker.Damage(Attack, InRange(attacker));
         }
 
         public override bool InRange(Unit other)
@@ -127,15 +116,15 @@ namespace GADE6112_Task_3___19011648
             int distance;
             int otherX = 0;
             int otherY = 0;
-            if (other is MeleeUnit)
+            if (other is MeleeUnit nmeM)
             {
-                otherX = ((MeleeUnit)other).XPos;
-                otherY = ((MeleeUnit)other).YPos;
+                otherX = nmeM.XPos;
+                otherY = nmeM.YPos;
             }
-            else if (other is RangedUnit)
+            else if (other is RangedUnit nmeR)
             {
-                otherX = ((RangedUnit)other).XPos;
-                otherY = ((RangedUnit)other).YPos;
+                otherX = nmeR.XPos;
+                otherY = nmeR.YPos;
             }
 
             distance = Math.Abs(XPos - otherX) + Math.Abs(YPos - otherY);
@@ -158,8 +147,7 @@ namespace GADE6112_Task_3___19011648
                 if (u is MeleeUnit && u != this)
                 {
                     MeleeUnit otherMu = (MeleeUnit)u;
-                    int distance = Math.Abs(XPos - otherMu.XPos)
-                               + Math.Abs(YPos - otherMu.YPos);
+                    int distance = Math.Abs(XPos - otherMu.XPos) + Math.Abs(YPos - otherMu.YPos);
                     if (distance < shortest)
                     {
                         shortest = distance;
@@ -192,6 +180,17 @@ namespace GADE6112_Task_3___19011648
             temp += Health + ", " + Attack + ", " + Speed;
             temp += (IsDead ? ". DEAD!" : " ALIVE!");
             return temp;
+        }
+
+        public override void Damage(int hit, bool inRange)
+        {
+            if (inRange)
+            {
+                isAttacking = true;
+                Health -= hit;
+                if (Health <= 0)
+                    Death();
+            }
         }
 
         public override bool AliveNt()

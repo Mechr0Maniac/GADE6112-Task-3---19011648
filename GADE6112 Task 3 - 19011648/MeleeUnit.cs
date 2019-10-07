@@ -109,26 +109,12 @@ namespace GADE6112_Task_3___19011648
                 case 3:
                     XPos--;
                     break;
-                default: break;
             }
         }
 
         public override void Combat(Unit attacker)
         {
-            if (attacker is MeleeUnit)
-            {
-                Health = Health - ((MeleeUnit)attacker).Attack;
-            }
-            else if (attacker is RangedUnit)
-            {
-                RangedUnit ru = (RangedUnit)attacker;
-                Health = Health - (ru.Attack - ru.AttackRange);
-            }
-
-            if (Health <= 0)
-            {
-                Death();
-            }
+            attacker.Damage(Attack, InRange(attacker));
         }
 
         public override bool InRange(Unit other)
@@ -136,15 +122,42 @@ namespace GADE6112_Task_3___19011648
             int distance;
             int otherX = 0;
             int otherY = 0;
-            if (other is MeleeUnit)
+            if (other is MeleeUnit nmeM)
             {
-                otherX = ((MeleeUnit)other).XPos;
-                otherY = ((MeleeUnit)other).YPos;
+                otherX = nmeM.XPos;
+                otherY = nmeM.YPos;
             }
-            else if (other is RangedUnit)
+            else if (other is RangedUnit nmeR)
             {
-                otherX = ((RangedUnit)other).XPos;
-                otherY = ((RangedUnit)other).YPos;
+                otherX = nmeR.XPos;
+                otherY = nmeR.YPos;
+            }
+
+            distance = Math.Abs(XPos - otherX) + Math.Abs(YPos - otherY);
+            if (distance <= AttackRange)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool InRange(Building builds)
+        {
+            int distance;
+            int otherX = 0;
+            int otherY = 0;
+            if (builds is FactoryBuilding nmeF)
+            {
+                otherX = nmeF.PosX;
+                otherY = nmeF.PosY;
+            }
+            else if (builds is ResourceBuilding nmeR)
+            {
+                otherX = nmeR.PosX;
+                otherY = nmeR.PosY;
             }
 
             distance = Math.Abs(XPos - otherX) + Math.Abs(YPos - otherY);
@@ -229,7 +242,7 @@ namespace GADE6112_Task_3___19011648
         }
         public void Raze(Building build)
         {
-            build.Damage(Attack);
+            build.Damage(Attack, InRange(build));
         }
 
         public override bool AliveNt()
@@ -239,6 +252,16 @@ namespace GADE6112_Task_3___19011648
         public override int FactionCheck()
         {
             return Faction;
+        }
+        public override void Damage(int hit, bool inRange)
+        {
+            if (inRange)
+            {
+                isAttacking = true;
+                Health -= hit - AttackRange;
+                if (Health <= 0)
+                    Death();
+            }
         }
     }
 }

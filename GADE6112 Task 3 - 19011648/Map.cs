@@ -145,9 +145,8 @@ namespace GADE6112_Task_3___19011648
             foreach (Building b in builds)
             {
                 Button myButt = new Button();
-                if (b is ResourceBuilding)
+                if (b is ResourceBuilding rb)
                 {
-                    ResourceBuilding rb = (ResourceBuilding)b;
                     myButt.Size = new Size(30, 30);
                     myButt.Location = new Point(rb.PosX * 30, rb.PosY * 30);
                     myButt.Text = rb.Symbol;
@@ -188,18 +187,16 @@ namespace GADE6112_Task_3___19011648
             y = myButt.Location.Y / 20;
             foreach (Unit u in units)
             {
-                if (u is RangedUnit)
+                if (u is RangedUnit ru )
                 {
-                    RangedUnit ru = (RangedUnit)u;
                     if (ru.XPos == x && ru.YPos == y)
                     {
                         txtInfo.Text = "";
                         txtInfo.Text = ru.ToString();
                     }
                 }
-                else if (u is MeleeUnit)
+                else if (u is MeleeUnit mu)
                 {
-                    MeleeUnit mu = (MeleeUnit)u;
                     if (mu.XPos == x && mu.YPos == y)
                     {
                         txtInfo.Text = "";

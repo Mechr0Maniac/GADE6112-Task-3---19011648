@@ -157,22 +157,75 @@ namespace GADE6112_Task_3___19011648
                         }
                     }
                 }
-                else if (map.Units[i] is RangedUnit)
+                else if (map.Units[i] is RangedUnit ru)
                 {
-                    RangedUnit ru = (RangedUnit)map.Units[i];
-                    (Unit closestU, int distanceTo) = ru.Closest(map.Units);
+                    (Unit closestU, int distanceToU) = ru.Closest(map.Units);
+                    (Building closestB, int distanceToB) = ru.Raid(map.Builds, map.Builds.Count);
+                    if (distanceToB < distanceToU)
+                    {
+                        if (closestB.IsDie() == false && closestB.FactionCheck() != ru.Faction)
+                        {
+                            if (distanceToB <= ru.AttackRange)
+                            {
+                                ru.IsAttacking = true;
+                                ru.Raze(closestB);
+                            }
+                            else
+                            {
+                                if (closestB is FactoryBuilding fact)
+                                {
+                                    if (ru.XPos > fact.PosX)
+                                    {
+                                        ru.Move(0);
+                                    }
+                                    else if (ru.YPos < fact.PosY)
+                                    {
+                                        ru.Move(1);
+                                    }
+                                    else if (ru.XPos < fact.PosX)
+                                    {
+                                        ru.Move(2);
+                                    }
+                                    else if (ru.YPos > fact.PosY)
+                                    {
+                                        ru.Move(3);
+                                    }
+                                }
+                                else if (closestB is ResourceBuilding res)
+                                {
+                                    if (ru.XPos > res.PosX)
+                                    {
+                                        ru.Move(0);
+                                    }
+                                    else if (ru.YPos < res.PosY)
+                                    {
+                                        ru.Move(1);
+                                    }
+                                    else if (ru.XPos < res.PosX)
+                                    {
+                                        ru.Move(2);
+                                    }
+                                    else if (ru.YPos > res.PosY)
+                                    {
+                                        ru.Move(3);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                            ru.Move(r.Next(0, 4));
+                    }
                     if (closestU.AliveNt() == false && closestU.FactionCheck() != ru.Faction)
                     {
-                        if (distanceTo <= ru.AttackRange)
+                        if (distanceToU <= ru.AttackRange)
                         {
                             ru.IsAttacking = true;
-                            ru.Combat(closestU);
+                            ru.Raze(closestB);
                         }
                         else
                         {
-                            if (closestU is MeleeUnit)
+                            if (closestU is MeleeUnit closestMu)
                             {
-                                MeleeUnit closestMu = (MeleeUnit)closestU;
                                 if (ru.XPos > closestMu.XPos)
                                 {
                                     ru.Move(0);
@@ -190,9 +243,8 @@ namespace GADE6112_Task_3___19011648
                                     ru.Move(3);
                                 }
                             }
-                            else if (closestU is RangedUnit)
+                            else if (closestU is RangedUnit closestRu )
                             {
-                                RangedUnit closestRu = (RangedUnit)closestU;
                                 if (ru.XPos > closestRu.XPos)
                                 {
                                     ru.Move(0);
@@ -213,12 +265,64 @@ namespace GADE6112_Task_3___19011648
                         }
                     }
                 }
+                else if (map.Units[i] is WizardUnit wu)
+                {
+                    (Unit closestU, int distanceToU) = wu.Closest(map.Units);
+                    if (closestU.AliveNt() == false && closestU.FactionCheck() != wu.Faction)
+                    {
+                        if (distanceToU <= 1)
+                        {
+                            wu.IsAttacking = true;
+                            wu.Combat(closestU);
+                        }
+                        else
+                        {
+                            if (closestU is MeleeUnit closestMu)
+                            {
+                                if (wu.XPos > closestMu.XPos)
+                                {
+                                    wu.Move(0);
+                                }
+                                else if (wu.YPos < closestMu.YPos)
+                                {
+                                    wu.Move(1);
+                                }
+                                else if (wu.XPos < closestMu.XPos)
+                                {
+                                    wu.Move(2);
+                                }
+                                else if (wu.YPos > closestMu.YPos)
+                                {
+                                    wu.Move(3);
+                                }
+                            }
+                            else if (closestU is RangedUnit closestRu)
+                            {
+                                if (wu.XPos > closestRu.XPos)
+                                {
+                                    wu.Move(0);
+                                }
+                                else if (wu.YPos < closestRu.YPos)
+                                {
+                                    wu.Move(1);
+                                }
+                                else if (wu.XPos < closestRu.XPos)
+                                {
+                                    wu.Move(2);
+                                }
+                                else if (wu.YPos > closestRu.YPos)
+                                {
+                                    wu.Move(3);
+                                }
+                            }
+                        }
+                    }
+                }
             }
             for (int i = 0; i < map.Builds.Count; i++)
             {
-                if (map.Builds[i] is ResourceBuilding)
+                if (map.Builds[i] is ResourceBuilding rb)
                 {
-                    ResourceBuilding rb = (ResourceBuilding)map.Builds[i];
                     rb.Generator();
                 }
                 else
@@ -235,43 +339,12 @@ namespace GADE6112_Task_3___19011648
             map.Display(grpMap);
             round++;
         }
-
-        public int DistanceTo(Unit a, Unit b)
-        {
-            int distance = 0;
-
-            if (a is MeleeUnit && b is MeleeUnit)
-            {
-                MeleeUnit start = (MeleeUnit)a;
-                MeleeUnit end = (MeleeUnit)b;
-                distance = Math.Abs(start.XPos - end.XPos) + Math.Abs(start.YPos - end.YPos);
-            }
-            else if (a is RangedUnit && b is MeleeUnit)
-            {
-                RangedUnit start = (RangedUnit)a;
-                MeleeUnit end = (MeleeUnit)b;
-                distance = Math.Abs(start.XPos - end.XPos) + Math.Abs(start.YPos - end.YPos);
-            }
-            else if (a is RangedUnit && b is RangedUnit)
-            {
-                RangedUnit start = (RangedUnit)a;
-                RangedUnit end = (RangedUnit)b;
-                distance = Math.Abs(start.XPos - end.XPos) + Math.Abs(start.YPos - end.YPos);
-            }
-            else if (a is MeleeUnit && b is RangedUnit)
-            {
-                MeleeUnit start = (MeleeUnit)a;
-                RangedUnit end = (RangedUnit)b;
-                distance = Math.Abs(start.XPos - end.XPos) + Math.Abs(start.YPos - end.YPos);
-            }
-            return distance;
-        }
         public void Save()
         {
             FileStream save = new FileStream(SAVE_GAME, FileMode.Create, FileAccess.Write);
             using (save)
             {
-                format.Serialize(save, map.Builds);
+                format.Serialize(save, map);
             }
             save.Close();
         }
