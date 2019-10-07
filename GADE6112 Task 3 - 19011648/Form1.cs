@@ -26,6 +26,11 @@ namespace GADE6112_Task_3___19011648
 
         private void BtnControl_Click(object sender, EventArgs e)
         {
+            if (trkbrWidth.Enabled == true || trkbrHeight.Enabled == true)
+            {
+                trkbrWidth.Enabled = false;
+                trkbrHeight.Enabled = false;
+            }
             if (tmrRound.Enabled == false)
             {
                 tmrRound.Enabled = true;
@@ -52,6 +57,16 @@ namespace GADE6112_Task_3___19011648
         {
             lblRound.Text = "Round: " + game.Round.ToString();
             game.Update();
+        }
+
+        private void TrkbrWidth_Scroll(object sender, EventArgs e)
+        {
+            lblWidth.Text = "Map Width: " + trkbrWidth.Value;
+        }
+
+        private void TrkbrHeight_Scroll(object sender, EventArgs e)
+        {
+            lblHeight.Text = "Map Height: " + trkbrHeight.Value;
         }
     }
 }
