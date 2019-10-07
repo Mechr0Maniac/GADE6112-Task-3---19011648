@@ -9,6 +9,7 @@ namespace GADE6112_Task_3___19011648
     [Serializable()]
     public class FactoryBuilding : Building
     {
+        private int tempSpot;
         private int unitType;
         private int productSpeed;
         private int spawnPoint;
@@ -81,23 +82,42 @@ namespace GADE6112_Task_3___19011648
         }
         public Unit Spawn(FactoryBuilding spawner, List<Building> builds)
         {
-            foreach (Building b in builds)
-            {
-                if (b is ResourceBuilding res)
-                {
-                    if (res.)
-                }
-            }
+            ResourceBuilding res = (ResourceBuilding)builds[tempSpot];
             if (spawner.UnitType() == 0)
             {
+                res.Pool -= 4;
                 RangedUnit r = new RangedUnit(spawner.PosX, spawner.spawnPoint, "archer", 100, 1, 20, 5, spawner.Faction, "R");
                 return r;
             }
             else
             {
+                res.Pool -= 5;
                 MeleeUnit m = new MeleeUnit(spawner.PosX, spawner.spawnPoint, "soldier", 100, 1, 20, spawner.Faction, "M");
                 return m;
             }
+        }
+
+        public bool WillSpawn(List<Building> builds)
+        {
+            int loop = 0;
+            bool temp = false;
+            int numLoops = builds.Count;
+            foreach (Building b in builds)
+            {
+                while (temp == false && loop < numLoops)
+                {
+                    if (b is ResourceBuilding res)
+                    {
+                        if (res.Pool >= 4)
+                        {
+                            tempSpot = loop;
+                            temp = true;
+                        }
+                    }
+                    loop++;
+                }
+            }
+            return temp;
         }
         public override bool IsDie()
         {

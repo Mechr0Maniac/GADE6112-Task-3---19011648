@@ -329,7 +329,10 @@ namespace GADE6112_Task_3___19011648
                 {
                     if (fb.ProductSpeed >= 3)
                     {
-                        map.Units.Add(fb.Spawn(fb));
+                        if (fb.WillSpawn(map.Builds))
+                        {
+                            map.Units.Add(fb.Spawn(fb, map.Builds));
+                        }
                         fb.ProductSpeed = 0;
                     }
                     fb.ProductSpeed++;

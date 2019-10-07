@@ -12,8 +12,13 @@ namespace GADE6112_Task_3___19011648
         private string resourceType;
         private int numResource;
         private int numResourcePR;
-        public int pool;
+        private int pool;
         public bool IsDead { get; set; }
+        public int Pool
+        {
+            get { return pool; }
+            set { pool = value; }
+        }
         public int PosX
         {
             get { return bPosX; }
